@@ -99,6 +99,22 @@ _While you may think that your code will never encounter this error condition or
 
 See alternatives [here](https://source.android.com/source/code-style.html#dont-ignore-exceptions).
 
+### 2.1.2 Piped exceptions
+
+Ensure that piped exception are used if executing the same error handling code:
+
+```java
+try {
+   	URL url = new URL("http://www.yoursimpledate.server/");
+   	BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+   	String line = reader.readLine();
+   	SimpleDateFormat format = new SimpleDateFormat("MM/DD/YY");
+   	Date date = format.parse(line);
+   }catch(ParseException | IOException exception) {
+   	// handle our problems here.
+   }
+```
+
 ### 2.1.2 Don't catch generic exception
 
 You should not do this:
@@ -239,10 +255,12 @@ public class MyAnnotatedClass { }
 
 __Fields__
 
-Annotations applying to fields should be listed __on the same line__, unless the line reaches the maximum line length.
+Annotations applying to fields should be listed __one annotation per line__
 
 ```java
-@Nullable @Mock DataManager mDataManager;
+@Nullable 
+@Mock 
+DataManager mDataManager;
 ```
 
 ### 2.2.7 Limit variable scope
@@ -439,7 +457,7 @@ __Note 2__: If we provide the methods described above, the keys for extras and a
 
 ### 2.2.15 Line length limit
 
-Code lines should not exceed __140 characters__. If the line is longer than this limit there are usually two options to reduce its length:
+Code lines should not exceed __150 characters__. If the line is longer than this limit there are usually two options to reduce its length:
 
 * Extract a local variable or method (preferable).
 * Apply line-wrapping to divide a single line into multiple ones.
@@ -631,6 +649,8 @@ Sometimes a class may contain a large amount of methods, that at the same time r
 ### 2.4.2 Espresso tests
 
 Every Espresso test class usually targets an Activity, therefore the name should match the name of the targeted Activity followed by `Test`, e.g. `SignInActivityTest`
+
+The method test names can be broken up with underscores to improve readability, e.g. public void testSaveAndUpdateCollectionAddress_responseStatusIsFailure_throwsSaveCollectionAddressAPIException()
 
 When using the Espresso API it is a common practice to place chained methods in new lines.
 
